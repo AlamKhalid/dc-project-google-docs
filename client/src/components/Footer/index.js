@@ -40,7 +40,7 @@ function CustomFooter() {
           by
         </span>
         <br />
-        <span>Bilal Afzal & Alam Khalid</span>
+        <span>Bilal Afzal & Alam Khalid & Mohammad Abubakr</span>
       </h6>
     </Root>
   );

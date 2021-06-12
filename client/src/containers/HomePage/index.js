@@ -36,7 +36,9 @@ function Homepage() {
   useEffect(() => {
     const getDocs = async () => {
       setLoading(true);
-      const { data } = await axios.get("http://localhost:4000/documents");
+      const { data } = await axios.get(
+        "https://dc-docs-clone.herokuapp.com/documents"
+      );
       setDocs(data);
       setLoading(false);
     };

@@ -23,7 +23,7 @@ const { theme } = config;
 function App() {
   return (
     <Provider store={store}>
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router>
         <Helmet>
           <title>Docs Clone</title>
         </Helmet>
