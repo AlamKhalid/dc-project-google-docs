@@ -92,6 +92,9 @@ function LargeHeader({ name }) {
   const handleNewClick = () => {
     dispatch(triggerNameModal());
   };
+  const handleCodeClick = () => {
+    dispatch(triggerNameModal(""));
+  };
   return (
     <Root>
       <Container>
@@ -125,6 +128,7 @@ function LargeHeader({ name }) {
             marginLeft="5px"
             background={ICOLOR.white}
             textColor={ICOLOR.dark}
+            onClick={handleCodeClick}
           >
             <span>Code</span>
           </CustomButton>
@@ -142,6 +146,9 @@ function SmallHeader({ name }) {
   };
   const handleNewClick = () => {
     dispatch(triggerNameModal());
+  };
+  const handleCodeClick = () => {
+    dispatch(triggerNameModal(""));
   };
   const [siderShow, setSiderShow] = useState(false);
 
@@ -186,6 +193,7 @@ function SmallHeader({ name }) {
                 marginLeft="5px"
                 background={ICOLOR.white}
                 textColor={ICOLOR.dark}
+                onClick={handleCodeClick}
               >
                 <span>Code</span>
               </CustomButton>

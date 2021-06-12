@@ -5,7 +5,7 @@ const actions = {
   triggerNameModal: (documentId) => {
     return {
       type: actions.SET_NAMEMODAL,
-      payload: documentId ? documentId : null,
+      payload: documentId !== undefined ? documentId : null,
     };
   },
 

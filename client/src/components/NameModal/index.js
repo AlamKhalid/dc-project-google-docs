@@ -1,5 +1,5 @@
 import { Col, Input, Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
@@ -24,7 +24,14 @@ const CustomHeading = styled.h2`
   margin-bottom: 0;
 `;
 
-const ModalFooter = ({ trigger, username }) => {
+const InputCol = styled(Col)`
+  input {
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+`;
+
+const ModalFooter = ({ trigger, username, code }) => {
   const documentId = useSelector((state) => state.modals.documentId);
 
   return (
@@ -36,13 +43,13 @@ const ModalFooter = ({ trigger, username }) => {
           textColor={ICOLOR.white}
           onClick={() => {
             if (username) {
-              if (documentId) {
+              if (code) {
                 window.open(
-                  `http://localhost:3006/documents/${documentId}?name=${username}`
+                  `https://thirsty-khorana-bf73f0.netlify.app/documents/${code}?name=${username}`
                 );
               } else {
                 window.open(
-                  `http://localhost:3006/documents/${uuidv4()}?name=${username}`
+                  `https://thirsty-khorana-bf73f0.netlify.app/${uuidv4()}?name=${username}`
                 );
               }
             } else {
@@ -50,7 +57,7 @@ const ModalFooter = ({ trigger, username }) => {
             }
           }}
         >
-          {documentId ? "Edit Document" : "Create Document"}
+          {documentId !== null ? "Edit Document" : "Create Document"}
         </CustomButton>
         <CustomButton background={ICOLOR.white} borderRadius onClick={trigger}>
           Cancel
@@ -72,9 +79,12 @@ const CustomTitle = () => {
 
 function NameModal() {
   const [username, setUsername] = useState("");
+  const [code, setCode] = useState("");
   const visible = useSelector((state) => state.modals.nameModal);
   const documentId = useSelector((state) => state.modals.documentId);
-
+  useEffect(() => {
+    setCode(documentId);
+  }, [documentId]);
   const dispatch = useDispatch();
   const trigger = () => {
     dispatch(triggerNameModal());
@@ -86,22 +96,34 @@ function NameModal() {
       visible={visible}
       onCancel={trigger}
       closable={false}
-      footer={<ModalFooter trigger={trigger} username={username} />}
+      footer={<ModalFooter trigger={trigger} username={username} code={code} />}
     >
       <CustomRow marginbottom="1rem">
         <Col span={24}>
           <CustomH6>Please enter your name</CustomH6>
         </Col>
       </CustomRow>
-      <CustomRow>
-        <Col span={24}>
+      <CustomRow marginbottom={documentId !== null ? "1rem" : "0rem"}>
+        <InputCol span={24}>
           <Input
-            placeholder="name"
+            placeholder="Name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-        </Col>
+        </InputCol>
       </CustomRow>
+      {documentId !== null ? (
+        <CustomRow>
+          <InputCol span={24}>
+            <Input
+              placeholder="Code"
+              disabled={documentId !== ""}
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
+          </InputCol>
+        </CustomRow>
+      ) : null}
     </Modal>
   );
 }
