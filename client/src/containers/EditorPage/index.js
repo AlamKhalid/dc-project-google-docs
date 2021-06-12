@@ -19,7 +19,7 @@ const Root = styled.div`
   }
 `;
 
-const ENDPOINT = "http://localhost:4000/";
+const ENDPOINT = "https://dc-docs-clone.herokuapp.com/";
 let socket;
 
 export default function EditorPage({ location }) {
