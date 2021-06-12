@@ -23,7 +23,7 @@ mongoose.connect(
 );
 
 const io = require("socket.io")(3001, {
-  cors: { origin: "http://localhost:3006", methods: ["GET", "POST"] },
+  cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
 const defaultValue = "";
