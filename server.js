@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
 const cors = require("cors");
 const express = require("express");
+const http = require("http");
+const socketio = require("socket.io");
 const Document = require("./document");
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
 const app = express();
-app.use(cors());
+const server = http.createServer(app);
 const port = process.env.PORT || 4000;
-app.listen(port, () => console.log(`Server started on port ${port}`));
+
+app.use(cors());
 
 app.get(`/`, (req, res) => res.send(`Hey, this is the backend running`));
 
@@ -17,13 +20,21 @@ app.get("/documents", async (req, res) => {
 });
 
 // Connect to database
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.9ym60.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+mongoose
+  .connect(
+    `mongodb+srv://alam:cheesepizza@cluster0.9ym60.mongodb.net/docs-clone?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => {
+    app.listen(port, () => console.log(`Server started on port ${port}`));
+  })
+  .catch((err) => console.log(err));
 
-const io = require("socket.io")(3001, {
-  cors: { origin: "*", methods: ["GET", "POST"] },
+const io = socketio(server, {
+  cors: {
+    origin: "*",
+  },
+  methods: ["GET", "POST"],
 });
 
 const defaultValue = "";
